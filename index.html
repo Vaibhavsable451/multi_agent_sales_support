@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talk to us</title>
+<style>
+  :root{
+    --ink:#16241f;
+    --paper:#f6f3ec;
+    --line:#d8d1bf;
+    --moss:#2f5f4f;
+    --moss-deep:#1f4338;
+    --clay:#c1652f;
+    --muted:#7a7567;
+    --bubble-user:#1f4338;
+    --bubble-agent:#ffffff;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(47,95,79,0.07), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(193,101,47,0.06), transparent 40%);
+    font-family:'Iowan Old Style','Georgia',serif;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+
+  header{
+    padding:28px 32px 20px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .brand-mark{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:var(--moss-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-weight:600;
+    color:var(--paper);
+    font-size:15px;
+    letter-spacing:0.5px;
+    flex-shrink:0;
+  }
+
+  .brand-text h1{
+    margin:0;
+    font-size:19px;
+    font-weight:600;
+    letter-spacing:0.2px;
+  }
+
+  .brand-text p{
+    margin:2px 0 0;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:0.3px;
+  }
+
+  .status{
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:12px;
+    color:var(--moss);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    letter-spacing:0.3px;
+  }
+
+  .status .dot{
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--moss);
+    box-shadow:0 0 0 0 rgba(47,95,79,0.5);
+    animation:pulse 2.2s infinite;
+  }
+
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(47,95,79,0.45);}
+    70%{box-shadow:0 0 0 7px rgba(47,95,79,0);}
+    100%{box-shadow:0 0 0 0 rgba(47,95,79,0);}
+  }
+
+  main{
+    flex:1;
+    max-width:760px;
+    width:100%;
+    margin:0 auto;
+    padding:28px 24px 140px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .row{
+    display:flex;
+    gap:12px;
+    max-width:88%;
+    animation:rise 0.35s ease;
+  }
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .row.user{
+    align-self:flex-end;
+    flex-direction:row-reverse;
+  }
+
+  .avatar{
+    width:30px;height:30px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:12px;
+    font-weight:600;
+    margin-top:2px;
+  }
+
+  .row.agent .avatar{background:var(--moss-deep);color:var(--paper);}
+  .row.user .avatar{background:var(--clay);color:var(--paper);}
+
+  .bubble{
+    padding:13px 16px;
+    border-radius:var(--radius);
+    line-height:1.5;
+    font-size:15px;
+    position:relative;
+  }
+
+  .row.agent .bubble{
+    background:var(--bubble-agent);
+    border:1px solid var(--line);
+    border-top-left-radius:4px;
+  }
+
+  .row.user .bubble{
+    background:var(--bubble-user);
+    color:#f2efe6;
+    border-top-right-radius:4px;
+  }
+
+  .meta-tag{
+    display:inline-block;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:10.5px;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    padding:2px 8px;
+    border-radius:20px;
+    margin-bottom:7px;
+    font-weight:600;
+  }
+
+  .tag-sales{background:rgba(193,101,47,0.13);color:var(--clay);}
+  .tag-support{background:rgba(47,95,79,0.13);color:var(--moss);}
+
+  .typing{
+    display:flex;
+    gap:4px;
+    padding:14px 16px;
+  }
+  .typing span{
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--muted);
+    opacity:0.5;
+    animation:bounce 1.2s infinite;
+  }
+  .typing span:nth-child(2){animation-delay:0.15s;}
+  .typing span:nth-child(3){animation-delay:0.3s;}
+  @keyframes bounce{
+    0%,60%,100%{transform:translateY(0);opacity:0.4;}
+    30%{transform:translateY(-4px);opacity:1;}
+  }
+
+  .composer{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:linear-gradient(to top, var(--paper) 60%, rgba(246,243,236,0));
+    padding:24px 0 28px;
+  }
+
+  .composer-inner{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 24px;
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+  }
+
+  .field-wrap{
+    flex:1;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:6px 8px 6px 18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:border-color 0.2s;
+  }
+
+  .field-wrap:focus-within{
+    border-color:var(--moss);
+  }
+
+  textarea{
+    flex:1;
+    border:none;
+    outline:none;
+    resize:none;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:15px;
+    line-height:1.4;
+    max-height:120px;
+    padding:9px 0;
+    background:transparent;
+    color:var(--ink);
+  }
+
+  textarea::placeholder{color:#a9a394;}
+
+  .send-btn{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:var(--moss-deep);
+    border:none;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    transition:transform 0.15s, background 0.2s;
+  }
+
+  .send-btn:hover{background:var(--moss);}
+  .send-btn:active{transform:scale(0.92);}
+  .send-btn:disabled{background:#b9b3a2;cursor:not-allowed;}
+
+  .send-btn svg{width:16px;height:16px;}
+
+  .hint{
+    text-align:center;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:10px;
+    letter-spacing:0.2px;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+  }
+
+  .empty-state h2{
+    font-size:22px;
+    color:var(--ink);
+    margin:0 0 8px;
+    font-weight:600;
+  }
+
+  .empty-state p{
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:13.5px;
+    max-width:380px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  .chips{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:18px;
+  }
+
+  .chip{
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:12.5px;
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color 0.15s, background 0.15s;
+  }
+  .chip:hover{border-color:var(--moss);background:#fbfaf5;}
+
+  .error-banner{
+    background:#fbeee6;
+    border:1px solid #e8c4a8;
+    color:#8a3f17;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:13px;
+    padding:10px 14px;
+    border-radius:10px;
+    max-width:88%;
+  }
+
+  @media (max-width:560px){
+    header{padding:20px 18px 16px;}
+    main{padding:20px 16px 140px;}
+    .row{max-width:94%;}
+    .composer-inner{padding:0 16px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">AI</div>
+    <div class="brand-text">
+      <h1>Help & Sales Desk</h1>
+      <p>Routed instantly to the right specialist</p>
+    </div>
+  </div>
+  <div class="status"><span class="dot"></span> Agent online</div>
+</header>
+
+<main id="chat-main">
+  <div class="empty-state" id="empty-state">
+    <h2>What can we help with today?</h2>
+    <p>Ask about pricing and plans, or tell us about an issue — you'll be connected to the right agent automatically.</p>
+    <div class="chips">
+      <button class="chip" data-msg="What are your pricing plans?">Pricing plans</button>
+      <button class="chip" data-msg="Can I book a demo?">Book a demo</button>
+      <button class="chip" data-msg="My order is delayed, I need help.">Order issue</button>
+      <button class="chip" data-msg="I want a refund for my last order.">Refund request</button>
+    </div>
+  </div>
+</main>
+
+<div class="composer">
+  <div class="composer-inner">
+    <div class="field-wrap">
+      <textarea id="msg-input" rows="1" placeholder="Type your message…"></textarea>
+    </div>
+    <button class="send-btn" id="send-btn" aria-label="Send message">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+  <div class="hint">Powered by your AI sales & support agent</div>
+</div>
+
+<script>
+  // ====== CONFIG: change this to your n8n webhook URL ======
+  const WEBHOOK_URL = "http://localhost:5678/webhook/ai-agent-webhook";
+  // ===========================================================
+
+  const chatMain = document.getElementById('chat-main');
+  const emptyState = document.getElementById('empty-state');
+  const input = document.getElementById('msg-input');
+  const sendBtn = document.getElementById('send-btn');
+
+  // simple session id so the agent can track a conversation
+  const sessionId = 'web-' + Math.random().toString(36).slice(2) + '-' + Date.now();
+
+  function autoGrow(){
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  }
+  input.addEventListener('input', autoGrow);
+
+  function scrollToBottom(){
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  function addUserBubble(text){
+    if(emptyState) emptyState.remove();
+    const row = document.createElement('div');
+    row.className = 'row user';
+    row.innerHTML = `
+      <div class="avatar">YOU</div>
+      <div class="bubble"></div>
+    `;
+    row.querySelector('.bubble').textContent = text;
+    chatMain.appendChild(row);
+    scrollToBottom();
+  }
+
+  function addTypingIndicator(){
+    const row = document.createElement('div');
+    row.className = 'row agent';
+    row.id = 'typing-row';
+    row.innerHTML = `
+      <div class="avatar">AI</div>
+      <div class="bubble typing"><span></span><span></span><span></span></div>
+    `;
+    chatMain.appendChild(row);
+    scrollToBottom();
+  }
+
+  function removeTypingIndicator(){
+    const t = document.getElementById('typing-row');
+    if(t) t.remove();
+  }
+
+  function addAgentBubble(text, route){
+    const row = document.createElement('div');
+    row.className = 'row agent';
+    const tagClass = route === 'sales' ? 'tag-sales' : 'tag-support';
+    const tagLabel = route === 'sales' ? 'Sales' : 'Support';
+    row.innerHTML = `
+      <div class="avatar">AI</div>
+      <div class="bubble">
+        <span class="meta-tag ${tagClass}">${tagLabel}</span><br/>
+        ${escapeHtml(text)}
+      </div>
+    `;
+    chatMain.appendChild(row);
+    scrollToBottom();
+  }
+
+  function addErrorBubble(text){
+    const row = document.createElement('div');
+    row.className = 'row agent';
+    row.innerHTML = `<div class="avatar">AI</div><div class="error-banner"></div>`;
+    row.querySelector('.error-banner').textContent = text;
+    chatMain.appendChild(row);
+    scrollToBottom();
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function sendMessage(text){
+    if(!text.trim()) return;
+
+    addUserBubble(text);
+    input.value = '';
+    autoGrow();
+    sendBtn.disabled = true;
+    addTypingIndicator();
+
+    try{
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: sessionId,
+          name: 'Website Visitor',
+          email: '',
+          message: text,
+          channel: 'website'
+        })
+      });
+
+      removeTypingIndicator();
+
+      if(!response.ok){
+        throw new Error('Server responded with ' + response.status);
+      }
+
+      const data = await response.json();
+
+      if(data && data.reply){
+        addAgentBubble(data.reply, data.route);
+      } else {
+        addErrorBubble("Hmm, I didn't get a proper reply. Please try again.");
+      }
+
+    }catch(err){
+      removeTypingIndicator();
+      addErrorBubble("Couldn't reach the agent. Check that your n8n workflow is active and the webhook URL is correct.");
+      console.error(err);
+    }finally{
+      sendBtn.disabled = false;
+    }
+  }
+
+  sendBtn.addEventListener('click', () => sendMessage(input.value));
+
+  input.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      sendMessage(input.value);
+    }
+  });
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => sendMessage(chip.dataset.msg));
+  });
+
+  input.focus();
+</script>
+
+</body>
+</html>
